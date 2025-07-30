@@ -8,9 +8,12 @@ vim.opt.termguicolors = true
 
 -- Keybindings
 vim.g.mapleader = " "
-vim.keymap.set("n", "<leader>w", ":w<CR>")
-vim.keymap.set("n", "<leader>q", ":q<CR>")
-vim.keymap.set("n", "<leader>e", ":Ex<CR>")
+vim.keymap.set("n", "<leader>w", ":w<CR>", { noremap = true})
+vim.keymap.set("n", "<leader>q", ":q<CR>", { noremap = true})
+vim.keymap.set("n", "<leader>e", ":Ex<CR>", { noremap = true})
+vim.keymap.set("n", "<leader>t", ":lcd %:p:h | terminal<CR>", { noremap = true})
+vim.keymap.set("n", "<leader>tt", ":lcd %:p:h | belowright split | terminal<CR>", { noremap = true}) 
+vim.keymap.set("n", "<leader>tv", ":lcd %:p:h | rightbelow vsplit | terminal<CR>", { noremap = true})
 
 -- Plugins (lazy.nvim)
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
