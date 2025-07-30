@@ -9,7 +9,7 @@ vim.opt.clipboard = "unnamedplus"
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.undofile = true
-vim.opt.undodir = vim.fn.stdpath('config') .. '/undo'
+vim.opt.undodir = vim.fn.stdpath("config") .. "/undo"
 
 -- Keybindings
 vim.g.mapleader = " "
@@ -38,14 +38,63 @@ require("lazy").setup({
             vim.cmd("colorscheme gruvbox")
         end
     },
+    {
+        "hrsh7th/nvim-cmp",
+        dependencies = {
+            "hrsh7th/cmp-nvim-lsp",
+            "hrsh7th/cmp-buffer",
+            "hrsh7th/cmp-path",
+        }
+    },
     { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
     { "neovim/nvim-lspconfig" },
     { "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
-    { "nvim-lualine/lualine.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } }
+    { "nvim-lualine/lualine.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } },
+    { "windwp/nvim-autopairs", config = true },
+    { "lewis6991/gitsigns.nvim" }
+})
+
+local cmp = require("cmp")
+cmp.setup({
+    snippet = {
+        expand = function(_) end
+    },
+    mapping = cmp.mapping.preset.insert({
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<CR>'] = cmp.mapping(function(fallback)
+        if cmp.visible() and cmp.get_selected_entry() then
+            cmp.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = false })
+        else
+            fallback()
+        end
+    end, { "i", "s" }),
+    ['<Tab>'] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+            cmp.select_next_item()
+        else
+            fallback()
+        end
+    end, { "i", "s" }),
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+            cmp.select_prev_item()
+        else
+            fallback()
+        end
+    end, { "i", "s" }),
+  }),
+  sources = cmp.config.sources({
+    { name = "nvim_lsp" },
+    { name = "buffer" },
+    { name = "path" },
+  }),
 })
 
 local lspconfig = require("lspconfig")
-lspconfig.clangd.setup({})
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+lspconfig.clangd.setup({
+    capabilities = capabilities
+})
 
 require("nvim-treesitter.configs").setup {
     highlight = { enable = true }
@@ -57,4 +106,24 @@ require('lualine').setup {
         section_separators = '',
         component_separators = '|',
      }
+}
+
+require('gitsigns').setup {
+    signs = {
+        add          = { text = '┃' },
+        change       = { text = '┃' },
+        delete       = { text = '_' },
+        topdelete    = { text = '‾' },
+        changedelete = { text = '~' },
+        untracked    = { text = '┆' },
+    },
+    signs_staged = {
+        add          = { text = '┃' },
+        change       = { text = '┃' },
+        delete       = { text = '_' },
+        topdelete    = { text = '‾' },
+        changedelete = { text = '~' },
+        untracked    = { text = '┆' },
+    },
+    signs_staged_enable = true
 }
