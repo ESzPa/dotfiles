@@ -8,6 +8,8 @@ vim.opt.termguicolors = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.splitbelow = true
 vim.opt.splitright = true
+vim.opt.undofile = true
+vim.opt.undodir = vim.fn.stdpath('config') .. '/undo'
 
 -- Keybindings
 vim.g.mapleader = " "
