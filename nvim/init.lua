@@ -23,6 +23,8 @@ vim.keymap.set("n", "<Tab>", ":BufferLineCycleNext<CR>", { noremap = true })
 vim.keymap.set("n", "<S-Tab>", ":BufferLineCyclePrev<CR>", { noremap = true })
 vim.keymap.set("n", "<leader>x", ":bdelete<CR>", { noremap = true })
 
+vim.keymap.set("t", "<Esc>", "<C-\\><C-N>", { noremap = true })
+
 -- Plugins (lazy.nvim)
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
