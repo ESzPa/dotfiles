@@ -19,6 +19,9 @@ vim.keymap.set("n", "<leader>e", ":Ex<CR>", { noremap = true})
 vim.keymap.set("n", "<leader>t", ":lcd %:p:h | terminal<CR>", { noremap = true})
 vim.keymap.set("n", "<leader>tt", ":lcd %:p:h | split | terminal<CR>", { noremap = true}) 
 vim.keymap.set("n", "<leader>tv", ":lcd %:p:h | vsplit | terminal<CR>", { noremap = true})
+vim.keymap.set("n", "<Tab>", ":BufferLineCycleNext<CR>", { noremap = true })
+vim.keymap.set("n", "<S-Tab>", ":BufferLineCyclePrev<CR>", { noremap = true })
+vim.keymap.set("n", "<leader>x", ":bdelete<CR>", { noremap = true })
 
 -- Plugins (lazy.nvim)
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -45,6 +48,11 @@ require("lazy").setup({
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-path",
         }
+    },
+    {
+        "akinsho/bufferline.nvim",
+        version = "*",
+        dependencies = "nvim-tree/nvim-web-devicons"
     },
     { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
     { "neovim/nvim-lspconfig" },
@@ -95,6 +103,15 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 lspconfig.clangd.setup({
     capabilities = capabilities
 })
+
+require("bufferline").setup {
+    options = {
+        mode = "buffers",
+        diagnostics = "nvim_lsp",
+        always_show_bufferline = true,
+        separator_style = "slant"
+    }
+}
 
 require("nvim-treesitter.configs").setup {
     highlight = { enable = true }
